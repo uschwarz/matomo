@@ -1798,8 +1798,9 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
       }
 
       url += AjaxHelper_$.param(parameters);
+      var postData = this.mixinDefaultPostParams(this.postParams);
       var ajaxCall = {
-        type: 'POST',
+        type: Object.keys(postData).length > 0 ? 'POST' : 'GET',
         async: true,
         url: url,
         dataType: this.format || 'json',
@@ -1881,7 +1882,7 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
             Matomo_Matomo.ajaxRequestFinished();
           }
         },
-        data: this.mixinDefaultPostParams(this.postParams),
+        data: postData,
         timeout: this.timeout !== null ? this.timeout : undefined
       };
       return AjaxHelper_$.ajax(ajaxCall);

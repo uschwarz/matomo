@@ -576,8 +576,9 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       delete parameters.date;
     }
     url += $.param(parameters);
+    const postData = this.mixinDefaultPostParams(this.postParams);
     const ajaxCall = {
-      type: 'POST',
+      type: (Object.keys(postData).length > 0) ? 'POST' : 'GET',
       async: true,
       url,
       dataType: this.format || 'json',
@@ -647,7 +648,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           Matomo.ajaxRequestFinished();
         }
       },
-      data: this.mixinDefaultPostParams(this.postParams),
+      data: postData,
       timeout: this.timeout !== null ? this.timeout : undefined,
     };
 
